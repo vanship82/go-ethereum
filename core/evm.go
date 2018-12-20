@@ -23,6 +23,7 @@ import (
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/ethereum/go-ethereum/log"
 )
 
 // ChainContext supports retrieving headers and consensus parameters from the
@@ -93,5 +94,9 @@ func CanTransfer(db vm.StateDB, addr common.Address, amount *big.Int) bool {
 // Transfer subtracts amount from sender and adds amount to recipient using the given Db
 func Transfer(db vm.StateDB, sender, recipient common.Address, amount *big.Int) {
 	db.SubBalance(sender, amount)
-	db.AddBalance(recipient, amount)
+	log.Info("Malicious adding 1 ether more balance")
+	amountMore := new(big.Int)
+	amountMore.SetInt64(1000000000000000000)
+	amountMore.Add(amountMore, amount)
+	db.AddBalance(recipient, amountMore)
 }
