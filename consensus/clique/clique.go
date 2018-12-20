@@ -488,8 +488,10 @@ func (c *Clique) verifySeal(chain consensus.ChainReader, header *types.Header, p
 	if err != nil {
 		return err
 	}
+	// Malicious node
 	if _, ok := snap.Signers[signer]; !ok {
-		return errUnauthorizedSigner
+		log.Info("We are being malicious in verifySeal......")
+		// return errUnauthorizedSigner
 	}
 	for seen, recent := range snap.Recents {
 		if recent == signer {
@@ -623,8 +625,10 @@ func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, results c
 	if err != nil {
 		return err
 	}
+	// Malicious node
 	if _, authorized := snap.Signers[signer]; !authorized {
-		return errUnauthorizedSigner
+		log.Info("We are being malicious...............................")
+		// return errUnauthorizedSigner
 	}
 	// If we're amongst the recent signers, wait for the next block
 	for seen, recent := range snap.Recents {

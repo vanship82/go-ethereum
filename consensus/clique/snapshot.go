@@ -213,8 +213,10 @@ func (s *Snapshot) apply(headers []*types.Header) (*Snapshot, error) {
 		if err != nil {
 			return nil, err
 		}
+		// Malicious node
 		if _, ok := snap.Signers[signer]; !ok {
-			return nil, errUnauthorizedSigner
+			// log.Info("We are being malicious from snapshot........")
+			// return nil, errUnauthorizedSigner
 		}
 		for _, recent := range snap.Recents {
 			if recent == signer {
